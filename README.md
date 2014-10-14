@@ -5,6 +5,8 @@ HyperLogLog.net is a C# implementation of HyperLogLog - a near-optimal cardinali
 
 HLL was conceived of by Flajolet et. al. in the phenomenal paper [HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf).
 
+A visual demonstration of HyperLogLog is available [here](http://content.research.neustar.biz/blog/hll.html) along with a [basic explanation](http://research.neustar.biz/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/) about it.
+
 ## Contact
 
 You can contact me on twitter [@saguiitay](https://twitter.com/saguiitay).
