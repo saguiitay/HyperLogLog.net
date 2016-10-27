@@ -71,11 +71,6 @@ namespace HyperLogLog.net
         }
         
         
-        public double FastPow2(int x)
-        {
-            //return (double)((System.Numerics.BigInteger)1 << x);
-            return (ulong)1 << x;  // right up to 2^63
-        }
         
         public int GetCount()
         {
@@ -103,6 +98,11 @@ namespace HyperLogLog.net
             }
 
             return dv;
+        }
+
+        private double FastPow2(int x)
+        {
+            return (ulong)1 << x;  // right up to 2^63
         }
 
         private ulong GetHash(object data)
