@@ -16,7 +16,7 @@ namespace HyperLogLog.net
         /// <summary>
         /// 2^32 
         /// </summary>
-        public const double Pow2_32 = 4294967297;
+        public const double Pow2_32 = 4294967296;
 
         #endregion
 
@@ -55,21 +55,33 @@ namespace HyperLogLog.net
 
         }
 
-        
+
         public void LogData(object data)
         {
             var hash = GetHash(data);
 
+           LogHash(hash);
+        }
+
+        public void LogHash(ulong hash)
+        {
             var registerIndex = GetRegisterIndex(hash); // binary address of the rightmost b bits
             var runLength = RunOfZeros(hash); // length of the run of zeroes starting at bit b+1
             _registers[registerIndex] = Math.Max(_registers[registerIndex], runLength);
         }
-
+        
+        
+        public double FastPow2(int x)
+        {
+            //return (double)((System.Numerics.BigInteger)1 << x);
+            return (ulong)1 << x;  // right up to 2^63
+        }
+        
         public int GetCount()
         {
             int dv;
 
-            var registersSum = _registers.Sum(r => 1d/Math.Pow(2, r));
+            var registersSum = _registers.Sum(r => 1d / FastPow2(r));
             var dvEstimate = Alpha*((double)M*M) / registersSum;
 
             if (dvEstimate < 2.5 * M)
@@ -80,11 +92,14 @@ namespace HyperLogLog.net
                 else
                     dv = (int)(M * Math.Log((double)M / v));
             }
-            else if (dvEstimate <= (Pow2_32 * 1 / 30))
+            else if (dvEstimate <= (Pow2_32 * 1 / 30))  // 143,165,576
                 dv = (int)dvEstimate;
             else
             {
-                dv = (int)(Math.Pow(-2, 32) * Math.Log(1 - dvEstimate / Pow2_32));
+                if (dvEstimate <= 1E9)
+                    dv = (int)(-Pow2_32 * Math.Log(1 - dvEstimate / Pow2_32));
+                else
+                    throw new ArgumentException("Estimated cardinality exceeds 10^9");
             }
 
             return dv;
