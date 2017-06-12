@@ -13,7 +13,7 @@ You can contact me on twitter [@saguiitay](https://twitter.com/saguiitay).
 
 ## NuGet
 
-WebDAVClient is available as a [NuGet package](https://www.nuget.org/packages/HyperLogLog.net/)
+HyperLogLog.net is available as a [NuGet package](https://www.nuget.org/packages/HyperLogLog.net/)
 
 ## Features
 
