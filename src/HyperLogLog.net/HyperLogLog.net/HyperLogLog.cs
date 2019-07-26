@@ -9,6 +9,7 @@ namespace HyperLogLog.net
         internal readonly byte[] _registers;
         private readonly HashAlgorithm _hashAlgorithm;
         private readonly IBytesConverter _bytesConverter;
+        private readonly object _hashLock = new object();
 
         #region Constants
 
@@ -108,7 +109,12 @@ namespace HyperLogLog.net
         private ulong GetHash(object data)
         {
             var dataBytes = _bytesConverter.GetBytes(data);
-            var hashBytes = _hashAlgorithm.ComputeHash(dataBytes);
+            var hashBytes = new byte[0];
+
+            lock (_hashLock)
+            {
+                hashBytes = _hashAlgorithm.ComputeHash(dataBytes);
+            }
 
             // XORing the hash into 64bits sections is not required - we can just take the first 64 bits
             //ulong hash = 0;
