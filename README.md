@@ -1,3 +1,8 @@
+# [DEPRECATED]
+
+This project is superseded by https://github.com/saguiitay/CardinalityEstimation, and is no longer maintained.
+
+
 HyperLogLog.net
 ===============
 
